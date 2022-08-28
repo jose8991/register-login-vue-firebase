@@ -1,13 +1,23 @@
 <template>
   <nav>
+    <TopHeader/>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/register">Registrarse</router-link> |
-    <router-link to="/login">Ingresar</router-link>
+    <router-link to="/login">Ingresar</router-link> |
+    <router-link to="/manager">Administrador</router-link>
   </nav>
   <router-view/>
 </template>
 
+<script>
+  import TopHeader from './components/TopHeader.vue';
+  export default {
+    components: { 
+      "TopHeader": TopHeader 
+  },
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

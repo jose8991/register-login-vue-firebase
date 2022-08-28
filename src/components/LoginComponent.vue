@@ -59,6 +59,7 @@
                        console.log(user)
                     },
                     (err) => {
+                        alert("no entro")
                         alert(err)
                     }
                 )
