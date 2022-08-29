@@ -1,10 +1,10 @@
 <template>
     <div>
         ingreso en
-        <span v-if="logeado">loggeado ok</span>
+        <span v-if="logeado">logeado</span>
         <span v-else>sin logear</span>
         <div>
-            <button @click="salir">cerrar seccion</button>>
+            <button @click="salir">cerrar seccion</button>
         </div>
     </div>
 </template>
@@ -15,11 +15,11 @@
         created () {
             auth.onAuthStateChanged(user => {
                 this.logeado = !!user;
-                if(user){
-                    this.logeado = true;
-                } else {
-                    this.logeado= false;
-                }
+                // if(user){
+                //     this.logeado = true;
+                // } else {
+                //     this.logeado= false;
+                // }
             })
         },
         date () {

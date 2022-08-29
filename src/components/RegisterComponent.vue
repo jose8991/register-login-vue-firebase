@@ -11,8 +11,8 @@
                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                       Registrarse
                     </p>
-
-                    <form class="mx-1 mx-md-4">
+                    <div v-if="error" class="error">{{ error.message }}</div>
+                    <form @submit.prevent="register" class="mx-1 mx-md-4">
                       <div class="d-flex flex-row align-items-center mb-4">
                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                         <div class="form-outline flex-fill mb-0">
@@ -91,7 +91,10 @@
                       <div
                         class="d-flex justify-content-center mx-4 mb-3 mb-lg-4"
                       >
-                        <button type="button" class="btn btn-primary btn-lg" @click="register">
+                        <button
+                          type="submit"
+                          class="btn btn-primary btn-lg"
+                        >
                           Registrarse
                         </button>
                       </div>
@@ -122,33 +125,51 @@
 </template>
 
 <script>
-    import {auth} from '../tools/firebase'
+import { auth } from "../tools/firebase";
 export default {
-    methods: {
-        date () {
-            return {
-                email: '',
-                password: '',
-                name: '',
-                ConfirmPassword: ''
+  date() {
+    return {
+      email: "",
+      password: "",
+      name: "",
+      ConfirmPassword: "",
+      error: "",
+    };
+  },
+  methods: {
+    async register() {
+      if (this.password != this.ConfirmPassword) {
+        alert("las contraseñas no son iguales");
+      }
+      try{
+        const user = auth.createUserWithEmailAndPassword(this.email, this.password)
+        user.then(
+            (user) => {
+                this.$router.replace({name: "manager"})
+                console.log(user)
+            },
+            (err) => {
+                alert("no se pudo completar el registro")
+                console.log(err)
+                this.$router.replace({name: "register"})
             }
-        },
-        register(){
-            if(this.password != this.ConfirmPassword){
-                alert("las contraseñas no son iguales")
-            }
-            auth.createUserWithEmailAndPassword(this.email,this.password).then(
-                (user) =>{
-                    alert("su registro fue exitoso")
-                    console.log(user)
-                },
-                (err) => {
-                    console.log(err)
-                }
-
-            )
-        }
-    }
+        )
+        
+        console.log(user)
+      }catch(err){
+        console.log(err)
+      }
+    //   const user = auth.createUserWithEmailAndPassword(this.email, this.password).then(
+    //         (user) => {
+    //         alert("su registro fue exitoso");
+    //         console.log(user);
+    //         },
+    //         (err) => {
+    //         console.log(err);
+    //         }
+    //     );
+    },
+  },
 };
 </script>
 

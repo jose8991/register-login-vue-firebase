@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
 import ManagerView from '../views/ManagerView'
-
+import {auth} from '../tools/firebase'
 const routes = [
   {
     path: '/',
@@ -23,7 +23,8 @@ const routes = [
   {
     path: '/manager',
     name: 'manager',
-    component: ManagerView
+    component: ManagerView,
+    meta: {requireAuth: true}
   },
   {
     path: '/about',
@@ -39,5 +40,13 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-
+router.beforeEach((to, from, next) => {
+  const requireAuth = to.matched.some(record => record.meta.requireAuth);
+  const isAuthenticated = auth.currentUser;
+  if(requireAuth && !isAuthenticated){
+    next("/login")
+  } else {
+    next();
+  }
+})
 export default router

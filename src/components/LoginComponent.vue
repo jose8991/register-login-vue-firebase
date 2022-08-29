@@ -8,7 +8,7 @@
         />
       </div>
       <div class="text-center mt-4 name">ingresar</div>
-      <form class="p-3 mt-3">
+      <form class="p-3 mt-3" @submit.prevent="login">
         <div class="form-field d-flex align-items-center">
           <span class="far fa-user"></span>
           <input
@@ -29,7 +29,7 @@
             v-model="password"
           />
         </div>
-        <button class="btn mt-3" @click="login">ingresar</button>
+        <button class="btn mt-3" type="submit">ingresar</button>
       </form>
       <div class="text-center fs-6">
         <a href="#">¿olvidaste la contraseña?</a> or
@@ -51,18 +51,25 @@
             }
         },
         methods: {
-            login() {
-                console.log("entro")
-                auth.signInWithEmailAndPassword(this.email,this.password).then(
+           async login() {
+                try{
+                    auth.signInWithEmailAndPassword(this.email,this.password).then(
                     (user) => {
                        alert("ok")
                        console.log(user)
+                       this.$router.replace({
+                        name: 'manager'
+                       })
                     },
                     (err) => {
                         alert("no entro")
                         alert(err)
                     }
                 )
+                }catch(err){
+                    console.log(err)
+                }
+
                 // auth.singInWithEmailAndPassword(this.email,this.password).then(
                 //     (user) => {
                 //         console.log(user)
